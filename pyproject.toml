@@ -1,0 +1,17 @@
+[project]
+name = "gamepad-backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flet[all]>=0.28.3",
+    "qrcode>=8.0.0",
+    "vgamepad>=0.1.0",
+    "websockets>=15.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "flet[all]>=0.28.3",
+]
