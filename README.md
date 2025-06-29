@@ -69,13 +69,44 @@ The application consists of two main files:
 ## Install Dependencies
 
 ### Option 1: Using a Virtual Environment
-```bash
-python -m venv venv
-# On Linux/macOS:
-source venv/bin/activate
-# On Windows:
-venv\Scripts\activate
-pip install -r requirements.txt
+## Install Dependencies with uv
+
+This project uses [uv](https://github.com/uv-dev/uv) to manage its virtual environment and dependencies.
+
+1. **Install uv** (if you haven't already):
+
+    ```sh
+    pip install uv
+    ```
+
+2. **Create a uv virtual environment**:
+
+    ```sh
+    uv venv create
+    ```
+
+3. **Activate virtual environment**:
+
+     **Linux/macOS:**
+     ```sh
+      source .venv/bin/activate
+      ```
+      **Windows**
+      ```sh
+      .venv\Scripts\activate
+      ```
+
+3. **Install the project dependencies**:
+
+    ```sh
+    uv run
+    ```
+
+4. **Run the application**:
+
+    ```sh
+    uv run main.py
+    ```
 ```
 
 2. **Run the Application**:
