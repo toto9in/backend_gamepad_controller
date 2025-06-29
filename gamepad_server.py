@@ -53,7 +53,6 @@ class GamepadServer:
         try:
             async for message in websocket:
                 try:
-                    # Fixed: Actually call the method with the message
                     self._map_messages_to_command(message)
                 except Exception as e:
                     print(f"Erro ao processar comando: {e}")
@@ -87,7 +86,7 @@ class GamepadServer:
             finally:
                 self.loop.close()
 
-        # Make the thread daemon so it doesn't block program exit
+
         threading.Thread(target=run_async_server, daemon=True).start()
 
     def stop_server(self):
@@ -96,7 +95,6 @@ class GamepadServer:
 
         self.running = False
 
-        # Close all connections
         if self.connections and self.loop:
             for ws in self.connections.copy():
                 self.loop.call_soon_threadsafe(lambda w=ws: w.close())
@@ -111,27 +109,26 @@ class GamepadServer:
         try:
             cmd_data = json.loads(message_data)
 
-            # Check if it's in the expected format with "message" key
+
             if "message" in cmd_data:
                 message = cmd_data["message"]
 
-                # Process each button in the message
+
                 for button_name, is_pressed in message.items():
-                    # Check if the button state changed
+
                     if (button_name in self.current_button_states and
                             self.current_button_states[button_name] != is_pressed):
 
-                        # Update current state
+
                         self.current_button_states[button_name] = is_pressed
 
-                        # Apply to gamepad if button is in mapping
                         if button_name in self.button_mapping:
                             if is_pressed:
                                 self.gamepad.press_button(self.button_mapping[button_name])
                             else:
                                 self.gamepad.release_button(self.button_mapping[button_name])
 
-                # Update gamepad state after processing all buttons
+
                 self.gamepad.update()
             else:
                 print(f"Formato de mensagem não reconhecido: {message_data}")

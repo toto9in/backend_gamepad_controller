@@ -20,30 +20,47 @@ class GamepadEmulatorApp:
         self.page = None
 
     def main(self, page: ft.Page):
+        page.fonts = {
+            "Pixelify": "/fonts/PixelifySans-Medium.ttf"
+        }
         page.title = "Gamepad Emulator"
         page.window_width = 400
-        page.window_height = 600
+        page.window_height = 800
         page.window_resizable = False
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         page.vertical_alignment = ft.MainAxisAlignment.START
+        page.theme = ft.Theme(
+            font_family="Pixelify"
+        )
 
         title = ft.Text(
             "Gamepad Emulator",
-            size=24,
+            size=48,
             weight=ft.FontWeight.BOLD,
             text_align=ft.TextAlign.CENTER,
         )
 
+        gamepad_image = ft.Image(
+            src="/images/gamepad2.jpg",
+            width=300,
+            height=180,
+            fit=ft.ImageFit.CONTAIN,
+        )
+
         self.connect_button = ft.ElevatedButton(
             "Mostrar QR Code",
-            width=200,
-            height=50,
-            on_click=self.toggle_qr_code
+            width=250,
+            height=60,
+            on_click=self.toggle_qr_code,
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=10),
+                padding=20
+            ),
         )
 
         self.status_text = ft.Text(
             "Servidor iniciado, esperando por conexões...",
-            size=14,
+            size=18,
             text_align=ft.TextAlign.CENTER,
             color=ft.Colors.GREY_700,
         )
@@ -58,22 +75,19 @@ class GamepadEmulatorApp:
 
         self.instructions = ft.Text(
             "Escaneie o QR Code com seu dispositivo móvel para conectar",
-            size=12,
+            size=16,
             text_align=ft.TextAlign.CENTER,
             color=ft.Colors.GREY_600,
             visible=False,
         )
 
         page.add(
-            ft.Container(height=20),
             title,
-            ft.Container(height=20),
+            gamepad_image,
+            ft.Container(height=5),
             self.connect_button,
-            ft.Container(height=20),
             self.status_text,
-            ft.Container(height=30),
             self.qr_image,
-            ft.Container(height=10),
             self.instructions,
         )
 
@@ -159,7 +173,7 @@ class GamepadEmulatorApp:
 
 def main():
     app = GamepadEmulatorApp()
-    ft.app(target=app.main)
+    ft.app(target=app.main, assets_dir="assets")
 
 
 if __name__ == "__main__":
